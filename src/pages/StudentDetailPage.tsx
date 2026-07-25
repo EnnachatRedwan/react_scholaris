@@ -234,8 +234,20 @@ const StudentDetailPage = () => {
           </Card>
           <Card>
             <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide">Average Score</p>
-            <div className="mt-1">
-              {avgScore ? <ScoreBadge score={Number(avgScore)} /> : <span className="text-sm text-gray-500 dark:text-gray-400">—</span>}
+            <div className="mt-2">
+              {avgScore ? (
+                <span className={`text-4xl font-bold ${
+                  Number(avgScore) >= 80
+                    ? 'text-green-600 dark:text-green-400'
+                    : Number(avgScore) >= 60
+                    ? 'text-yellow-600 dark:text-yellow-400'
+                    : 'text-red-600 dark:text-red-400'
+                }`}>
+                  {avgScore}
+                </span>
+              ) : (
+                <span className="text-sm text-gray-500 dark:text-gray-400">—</span>
+              )}
             </div>
           </Card>
         </div>

@@ -87,11 +87,19 @@ const scoresSlice = createSlice({
       .addCase(fetchScoresBySubject.pending, (state) => { state.loading = true; })
       .addCase(fetchScoresBySubject.fulfilled, (state, action) => { state.loading = false; state.subjectScores = action.payload; })
       .addCase(fetchScoresBySubject.rejected, (state, action) => { state.loading = false; state.error = action.error.message ?? 'Error'; })
-      .addCase(addScore.fulfilled, (state, action) => { state.list.push(action.payload); })
+      .addCase(addScore.fulfilled, (state, action) => {
+        state.list.push(action.payload);
+        state.studentScores.push(action.payload);
+        state.subjectScores.push(action.payload);
+      })
       .addCase(addScore.rejected, (state, action) => { state.error = action.error.message ?? 'Failed to add score'; })
       .addCase(editScore.fulfilled, (state, action) => {
         const idx = state.list.findIndex((s) => s.id === action.payload.id);
         if (idx !== -1) state.list[idx] = action.payload;
+        const sIdx = state.studentScores.findIndex((s) => s.id === action.payload.id);
+        if (sIdx !== -1) state.studentScores[sIdx] = action.payload;
+        const subIdx = state.subjectScores.findIndex((s) => s.id === action.payload.id);
+        if (subIdx !== -1) state.subjectScores[subIdx] = action.payload;
         state.selected = action.payload;
       })
       .addCase(editScore.rejected, (state, action) => { state.error = action.error.message ?? 'Failed to update score'; })
